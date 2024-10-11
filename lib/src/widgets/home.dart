@@ -56,31 +56,16 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        GestureDetector(
-          onTap: () async {
-            // if (_appBarController.isCompleted) {
-            //   await _appBarController.reverse();
-            //   await _greetingController.reverse();
-            //   await _header1Controller.reverse();
-            //   await _header2Controller.reverse();
-            //   await _ctaController.reverse();
-            //   await _countController.reverse();
-            //   await _bottomController.reverse();
-            // } else {
-            //   _appBarController.forward();
-            // }
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: RadialGradient(
-                center: const Alignment(1.0, 0.0),
-                radius: 1.0,
-                colors: [
-                  EstateColors.orange.withOpacity(.5),
-                  EstateColors.orange.withOpacity(.1),
-                ],
-                stops: const [0.0, 1.0],
-              ),
+        Container(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              center: const Alignment(1.0, 0.0),
+              radius: 1.0,
+              colors: [
+                EstateColors.orange.withOpacity(.5),
+                EstateColors.orange.withOpacity(.1),
+              ],
+              stops: const [0.0, 1.0],
             ),
           ),
         ),
@@ -375,7 +360,7 @@ class RoomFour extends StatefulWidget {
 class _RoomFourState extends State<RoomFour> {
   bool showText = false;
   Future displayText() async {
-    await Future.delayed(Constants.basicDuration);
+    await Future.delayed(Constants.singleDuration);
     setState(() {
       showText = true;
     });
@@ -411,7 +396,18 @@ class _RoomFourState extends State<RoomFour> {
                   Container(
                     width: 36,
                     height: 36,
-                    decoration: const BoxDecoration(color: EstateColors.white, shape: BoxShape.circle),
+                    decoration: BoxDecoration(
+                      color: EstateColors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.4),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
                     alignment: Alignment.center,
                     child: const Icon(CupertinoIcons.chevron_forward, size: 12),
                   ),
@@ -452,7 +448,7 @@ class RoomTwo extends StatefulWidget {
 class _RoomTwoState extends State<RoomTwo> {
   bool showText = false;
   Future displayText() async {
-    await Future.delayed(Constants.basicDuration);
+    await Future.delayed(Constants.singleDuration);
     setState(() {
       showText = true;
     });
@@ -488,7 +484,18 @@ class _RoomTwoState extends State<RoomTwo> {
                   Container(
                     width: 36,
                     height: 36,
-                    decoration: const BoxDecoration(color: EstateColors.white, shape: BoxShape.circle),
+                    decoration: BoxDecoration(
+                      color: EstateColors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.4),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
                     alignment: Alignment.center,
                     child: const Icon(CupertinoIcons.chevron_forward, size: 12),
                   ),
@@ -529,7 +536,7 @@ class RoomThree extends StatefulWidget {
 class _RoomThreeState extends State<RoomThree> {
   bool showText = false;
   Future displayText() async {
-    await Future.delayed(Constants.basicDuration);
+    await Future.delayed(Constants.singleDuration);
     setState(() {
       showText = true;
     });
@@ -565,7 +572,18 @@ class _RoomThreeState extends State<RoomThree> {
                   Container(
                     width: 36,
                     height: 36,
-                    decoration: const BoxDecoration(color: EstateColors.white, shape: BoxShape.circle),
+                    decoration: BoxDecoration(
+                      color: EstateColors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.4),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
                     alignment: Alignment.center,
                     child: const Icon(CupertinoIcons.chevron_forward, size: 12),
                   ),
@@ -642,7 +660,18 @@ class _RoomOneState extends State<RoomOne> {
                   Container(
                     width: 54,
                     height: 54,
-                    decoration: const BoxDecoration(color: EstateColors.white, shape: BoxShape.circle),
+                    decoration: BoxDecoration(
+                      color: EstateColors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.4),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
                     alignment: Alignment.center,
                     child: const Icon(CupertinoIcons.chevron_forward, size: 12),
                   ),

@@ -12,6 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
+  flutter_native_splash: ^2.4.1
   flutter_svg: ^2.0.10+1
 
 dev_dependencies:
@@ -62,3 +63,13 @@ flutter:
         - asset: assets/fonts/Euclid-Circular-A-Bold-Italic.ttf
           style: italic
           weight: 700
+
+flutter_native_splash:
+
+  color: "#000000"
+  image: assets/images/icon.png
+
+  android_12:
+    image: assets/images/icon.png
+
+    color: "#000000"

@@ -324,19 +324,35 @@ class MapTag extends StatelessWidget {
                 ),
               ),
               child: AnimatedSwitcher(
-                duration: Constants.singleDuration,
-                child: isWithoutLayer
-                    ? SvgPicture.asset(
-                        EIcons.apartmentIcon,
-                        height: 20,
-                        colorFilter: const ColorFilter.mode(EstateColors.white, BlendMode.srcIn),
-                      )
-                    : Row(
-                        children: [
-                          Text('$amount mn', style: const TextStyle(color: EstateColors.white, fontSize: 13)),
-                          const Icon(Icons.currency_ruble, color: EstateColors.white, size: 15),
-                        ],
-                      ),
+                duration: const Duration(seconds: 2),
+                // child: isWithoutLayer
+                //     ? SvgPicture.asset(
+                //         EIcons.apartmentIcon,
+                //         height: 20,
+                //         colorFilter: const ColorFilter.mode(EstateColors.white, BlendMode.srcIn),
+                //       )
+                //     : Row(
+                //         children: [
+                //           Text('$amount mn', style: const TextStyle(color: EstateColors.white, fontSize: 13)),
+                //           const Icon(Icons.currency_ruble, color: EstateColors.white, size: 15),
+                //         ],
+                //       ),
+
+                child: AnimatedCrossFade(
+                  firstChild: Row(
+                    children: [
+                      Text('$amount mn', style: const TextStyle(color: EstateColors.white, fontSize: 13)),
+                      const Icon(Icons.currency_ruble, color: EstateColors.white, size: 15),
+                    ],
+                  ),
+                  secondChild: SvgPicture.asset(
+                    EIcons.apartmentIcon,
+                    height: 20,
+                    colorFilter: const ColorFilter.mode(EstateColors.white, BlendMode.srcIn),
+                  ),
+                  crossFadeState: !isWithoutLayer ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                  duration: Constants.basicDuration,
+                ),
               ),
             ),
           );
