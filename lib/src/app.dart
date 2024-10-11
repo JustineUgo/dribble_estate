@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:real/src/widgets/home.dart';
 import 'package:real/theme/theme.dart';
 import 'package:real/utils/assests.dart';
 import 'package:real/utils/constants.dart';
@@ -45,20 +46,14 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
-        backgroundColor: isHome ? EstateColors.primary.withOpacity(.1) : EstateColors.dark,
+        backgroundColor: isHome ? EstateColors.orange.withOpacity(.1) : EstateColors.dark,
       ),
       body: SafeArea(
         child: Center(
           child: Stack(
             children: [
               AnimatedCrossFade(
-                firstChild: Stack(
-                  children: [
-                    Container(
-                      color: EstateColors.orange,
-                    ),
-                  ],
-                ),
+                firstChild: const Home(),
                 secondChild: Container(
                   decoration: BoxDecoration(
                     color: EstateColors.dark,
