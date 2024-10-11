@@ -28,7 +28,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   late AnimationController _bottomController;
   late Animation _bottomAnimation;
 
-
   @override
   void initState() {
     super.initState();
@@ -59,17 +58,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       children: [
         GestureDetector(
           onTap: () async {
-            if (_appBarController.isCompleted) {
-              await _appBarController.reverse();
-              await _greetingController.reverse();
-              await _header1Controller.reverse();
-              await _header2Controller.reverse();
-              await _ctaController.reverse();
-              await _countController.reverse();
-              await _bottomController.reverse();
-            } else {
-              _appBarController.forward();
-            }
+            // if (_appBarController.isCompleted) {
+            //   await _appBarController.reverse();
+            //   await _greetingController.reverse();
+            //   await _header1Controller.reverse();
+            //   await _header2Controller.reverse();
+            //   await _ctaController.reverse();
+            //   await _countController.reverse();
+            //   await _bottomController.reverse();
+            // } else {
+            //   _appBarController.forward();
+            // }
           },
           child: Container(
             decoration: BoxDecoration(
@@ -85,276 +84,279 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             ),
           ),
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: AnimatedBuilder(
-                  animation: _appBarAnimation,
-                  builder: (context, child) {
-                    if (_appBarAnimation.isCompleted) {
-                      _greetingController.forward();
-                    }
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Stack(
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * (_appBarAnimation.value * 0.55),
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
-                              decoration: BoxDecoration(
-                                color: EstateColors.white.withOpacity(.6),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Text(''),
-                            ),
-                            Positioned.fill(
-                              child: Opacity(
-                                opacity: double.parse(_appBarAnimation.value.toString()) < 0.8 ? 0 : double.parse(_appBarAnimation.value.toString()),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      EIcons.locationIcon,
-                                      colorFilter: const ColorFilter.mode(EstateColors.primary, BlendMode.srcIn),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    const Text('Saint Petersburg', style: TextStyle(fontSize: 16, color: EstateColors.primary, fontWeight: FontWeight.w500)),
-                                  ],
+        SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: AnimatedBuilder(
+                    animation: _appBarAnimation,
+                    builder: (context, child) {
+                      if (_appBarAnimation.isCompleted) {
+                        _greetingController.forward();
+                      }
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width * (_appBarAnimation.value * 0.55),
+                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+                                decoration: BoxDecoration(
+                                  color: EstateColors.white.withOpacity(.6),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
+                                child: const Text(''),
                               ),
-                            )
-                          ],
-                        ),
-                        Transform.scale(
-                          scale: _appBarAnimation.value,
-                          child: CircleAvatar(
-                            radius: 25,
-                            backgroundImage: AssetImage(EImages.profile),
+                              Positioned.fill(
+                                child: Opacity(
+                                  opacity: double.parse(_appBarAnimation.value.toString()) < 0.8 ? 0 : double.parse(_appBarAnimation.value.toString()),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        EIcons.locationIcon,
+                                        colorFilter: const ColorFilter.mode(EstateColors.primary, BlendMode.srcIn),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      const Text('Saint Petersburg', style: TextStyle(fontSize: 16, color: EstateColors.primary, fontWeight: FontWeight.w500)),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Transform.scale(
+                            scale: _appBarAnimation.value,
+                            child: CircleAvatar(
+                              radius: 25,
+                              backgroundImage: AssetImage(EImages.profile),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+              ),
+              const SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: AnimatedBuilder(
+                    animation: _greetingAnimation,
+                    builder: (context, child) {
+                      if (_greetingAnimation.value >= 0.5) {
+                        _header1Controller.forward();
+                      }
+                      return Opacity(
+                        opacity: _greetingAnimation.value,
+                        child: const Text('Hi, Marina', style: TextStyle(fontSize: 24, color: EstateColors.primary, fontWeight: FontWeight.w400)),
+                      );
+                    }),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: AnimatedBuilder(
+                    animation: _header1Animation,
+                    builder: (context, snapshot) {
+                      double dy = 55 - (double.parse(_header1Animation.value.toString()) * 55);
+                      if (_header1Animation.value >= .3) {
+                        _header2Controller.forward();
+                      }
+                      if (_header1Animation.value >= .6) {
+                        _ctaController.forward();
+                        _countController.forward();
+                      }
+
+                      return Transform.translate(
+                        offset: Offset(0, dy),
+                        child: Opacity(
+                          opacity: _header1Animation.value,
+                          child: Text(
+                            "let's select your",
+                            style: TextStyle(fontSize: 34, color: EstateColors.dark.withOpacity(.9), fontWeight: FontWeight.w400),
                           ),
                         ),
-                      ],
-                    );
-                  }),
-            ),
-            const SizedBox(height: 40),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: AnimatedBuilder(
-                  animation: _greetingAnimation,
-                  builder: (context, child) {
-                    if (_greetingAnimation.value >= 0.5) {
-                      _header1Controller.forward();
-                    }
-                    return Opacity(
-                      opacity: _greetingAnimation.value,
-                      child: const Text('Hi, Marina', style: TextStyle(fontSize: 24, color: EstateColors.primary, fontWeight: FontWeight.w400)),
-                    );
-                  }),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: AnimatedBuilder(
-                  animation: _header1Animation,
-                  builder: (context, snapshot) {
-                    double dy = 55 - (double.parse(_header1Animation.value.toString()) * 55);
-                    if (_header1Animation.value >= .3) {
-                      _header2Controller.forward();
-                    }
-                    if (_header1Animation.value >= .6) {
-                      _ctaController.forward();
-                      _countController.forward();
-                    }
-
-                    return Transform.translate(
-                      offset: Offset(0, dy),
-                      child: Opacity(
-                        opacity: _header1Animation.value,
-                        child: Text(
-                          "let's select your",
-                          style: TextStyle(fontSize: 34, color: EstateColors.dark.withOpacity(.9), fontWeight: FontWeight.w400),
+                      );
+                    }),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: AnimatedBuilder(
+                    animation: _header2Animation,
+                    builder: (context, snapshot) {
+                      double dy = 55 - (double.parse(_header2Animation.value.toString()) * 55);
+                      return Transform.translate(
+                        offset: Offset(0, dy),
+                        child: Opacity(
+                          opacity: _header1Animation.value,
+                          child: Text(
+                            "perfect place",
+                            style: TextStyle(fontSize: 34, color: EstateColors.dark.withOpacity(.9), fontWeight: FontWeight.w400),
+                          ),
                         ),
-                      ),
-                    );
-                  }),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: AnimatedBuilder(
-                  animation: _header2Animation,
-                  builder: (context, snapshot) {
-                    double dy = 55 - (double.parse(_header2Animation.value.toString()) * 55);
-                    return Transform.translate(
-                      offset: Offset(0, dy),
-                      child: Opacity(
-                        opacity: _header1Animation.value,
-                        child: Text(
-                          "perfect place",
-                          style: TextStyle(fontSize: 34, color: EstateColors.dark.withOpacity(.9), fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    );
-                  }),
-            ),
-            const SizedBox(height: 50),
-            Expanded(
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      children: [
-                        AnimatedBuilder(
-                            animation: _ctaAnimation,
-                            builder: (context, snapshot) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Transform.scale(
-                                    scale: _ctaAnimation.value,
-                                    child: Container(
-                                      width: (MediaQuery.of(context).size.width - 50) / 2,
-                                      height: (MediaQuery.of(context).size.width - 50) / 2,
-                                      padding: const EdgeInsets.all(20),
-                                      decoration: const BoxDecoration(color: EstateColors.orange, shape: BoxShape.circle),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const Expanded(
-                                            child: Column(
-                                              children: [
-                                                Text('BUY', style: TextStyle(fontSize: 12, color: EstateColors.white)),
-                                              ],
-                                            ),
-                                          ),
-                                          AnimatedBuilder(
-                                            animation: _countAnimation,
-                                            builder: (context, child) {
-                                              return Text((_countAnimation.value * 1034).toString().split('.').first,
-                                                  style: const TextStyle(fontSize: 34, color: EstateColors.white, fontWeight: FontWeight.w600));
-                                            },
-                                          ),
-                                          const Expanded(
-                                            child: Column(
-                                              children: [
-                                                Text('offers', style: TextStyle(fontSize: 12, color: EstateColors.white)),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Transform.scale(
-                                    scale: _ctaAnimation.value,
-                                    child: Container(
-                                      width: (MediaQuery.of(context).size.width - 50) / 2,
-                                      height: (MediaQuery.of(context).size.width - 50) / 2,
-                                      padding: const EdgeInsets.all(20),
-                                      decoration: BoxDecoration(color: EstateColors.white.withOpacity(.4), borderRadius: BorderRadius.circular(30)),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const Expanded(
-                                            child: Column(
-                                              children: [
-                                                Text('RENT', style: TextStyle(fontSize: 12, color: EstateColors.primary)),
-                                              ],
-                                            ),
-                                          ),
-                                          AnimatedBuilder(
-                                            animation: _countAnimation,
-                                            builder: (context, child) {
-                                              if (_countAnimation.value > 0.8) {
-                                                _bottomController.forward();
-                                              }
-                                              return Text((_countAnimation.value * 2212).toString().split('.').first,
-                                                  style: const TextStyle(fontSize: 34, color: EstateColors.primary, fontWeight: FontWeight.w600));
-                                            },
-                                          ),
-                                          const Expanded(
-                                            child: Column(
-                                              children: [
-                                                Text('offers', style: TextStyle(fontSize: 12, color: EstateColors.primary)),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }),
-                      ],
-                    ),
-                  ),
-                  AnimatedBuilder(
-                      animation: _bottomAnimation,
-                      builder: (context, child) {
-                        return Transform.translate(
-                          offset: Offset(0, 550 - (550 * double.parse(_bottomAnimation.value.toString()))),
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                              color: EstateColors.white,
-                              borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-                            ),
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: RoomOne(
-                                    isDone: double.parse(_bottomAnimation.value.toString()) >= 0.8,
-                                    isShowable: double.parse(_bottomAnimation.value.toString()) >= 0.55,
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Expanded(
-                                  flex: 3,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: RoomTwo(
-                                          isDone: _bottomAnimation.isCompleted,
-                                          isShowable: double.parse(_bottomAnimation.value.toString()) >= 0.9,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Expanded(
+                      );
+                    }),
+              ),
+              const SizedBox(height: 50),
+              Expanded(
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          AnimatedBuilder(
+                              animation: _ctaAnimation,
+                              builder: (context, snapshot) {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Transform.scale(
+                                      scale: _ctaAnimation.value,
+                                      child: Container(
+                                        width: (MediaQuery.of(context).size.width - 50) / 2,
+                                        height: (MediaQuery.of(context).size.width - 50) / 2,
+                                        padding: const EdgeInsets.all(20),
+                                        decoration: const BoxDecoration(color: EstateColors.orange, shape: BoxShape.circle),
                                         child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Expanded(
-                                              child: RoomThree(
-                                                isDone: _bottomAnimation.isCompleted,
-                                                isShowable: double.parse(_bottomAnimation.value.toString()) >= 0.7,
+                                            const Expanded(
+                                              child: Column(
+                                                children: [
+                                                  Text('BUY', style: TextStyle(fontSize: 12, color: EstateColors.white)),
+                                                ],
                                               ),
                                             ),
-                                            const SizedBox(height: 10),
-                                            Expanded(
-                                              child: RoomFour(
-                                                isDone: _bottomAnimation.isCompleted,
-                                                isShowable: double.parse(_bottomAnimation.value.toString()) >= 0.9,
+                                            AnimatedBuilder(
+                                              animation: _countAnimation,
+                                              builder: (context, child) {
+                                                return Text((_countAnimation.value * 1034).toString().split('.').first,
+                                                    style: const TextStyle(fontSize: 34, color: EstateColors.white, fontWeight: FontWeight.w600));
+                                              },
+                                            ),
+                                            const Expanded(
+                                              child: Column(
+                                                children: [
+                                                  Text('offers', style: TextStyle(fontSize: 12, color: EstateColors.white)),
+                                                ],
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ],
+                                    ),
+                                    Transform.scale(
+                                      scale: _ctaAnimation.value,
+                                      child: Container(
+                                        width: (MediaQuery.of(context).size.width - 50) / 2,
+                                        height: (MediaQuery.of(context).size.width - 50) / 2,
+                                        padding: const EdgeInsets.all(20),
+                                        decoration: BoxDecoration(color: EstateColors.white.withOpacity(.4), borderRadius: BorderRadius.circular(30)),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            const Expanded(
+                                              child: Column(
+                                                children: [
+                                                  Text('RENT', style: TextStyle(fontSize: 12, color: EstateColors.primary)),
+                                                ],
+                                              ),
+                                            ),
+                                            AnimatedBuilder(
+                                              animation: _countAnimation,
+                                              builder: (context, child) {
+                                                if (_countAnimation.value > 0.8) {
+                                                  _bottomController.forward();
+                                                }
+                                                return Text((_countAnimation.value * 2212).toString().split('.').first,
+                                                    style: const TextStyle(fontSize: 34, color: EstateColors.primary, fontWeight: FontWeight.w600));
+                                              },
+                                            ),
+                                            const Expanded(
+                                              child: Column(
+                                                children: [
+                                                  Text('offers', style: TextStyle(fontSize: 12, color: EstateColors.primary)),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }),
+                        ],
+                      ),
+                    ),
+                    AnimatedBuilder(
+                        animation: _bottomAnimation,
+                        builder: (context, child) {
+                          return Transform.translate(
+                            offset: Offset(0, 550 - (550 * double.parse(_bottomAnimation.value.toString()))),
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: const BoxDecoration(
+                                color: EstateColors.white,
+                                borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+                              ),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: RoomOne(
+                                      isDone: double.parse(_bottomAnimation.value.toString()) >= 0.8,
+                                      isShowable: double.parse(_bottomAnimation.value.toString()) >= 0.55,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(height: 10),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: RoomTwo(
+                                            isDone: _bottomAnimation.isCompleted,
+                                            isShowable: double.parse(_bottomAnimation.value.toString()) >= 0.9,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              Expanded(
+                                                child: RoomThree(
+                                                  isDone: _bottomAnimation.isCompleted,
+                                                  isShowable: double.parse(_bottomAnimation.value.toString()) >= 0.7,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Expanded(
+                                                child: RoomFour(
+                                                  isDone: _bottomAnimation.isCompleted,
+                                                  isShowable: double.parse(_bottomAnimation.value.toString()) >= 0.9,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      }),
-                ],
+                          );
+                        }),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         )
       ],
     );
@@ -416,21 +418,21 @@ class _RoomFourState extends State<RoomFour> {
                 ],
               ),
             ),
-            if(showText)
-            Positioned.fill(
-              child: Row(
-                children: [
-                  AnimatedOpacity(
-                    duration: Constants.basicDuration,
-                    opacity: showText ? 1 : 0,
-                    child: const Padding(
-                      padding: EdgeInsets.all(3.0),
-                      child: Text('Sedova St., 22', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
+            if (showText)
+              Positioned.fill(
+                child: Row(
+                  children: [
+                    AnimatedOpacity(
+                      duration: Constants.basicDuration,
+                      opacity: showText ? 1 : 0,
+                      child: const Padding(
+                        padding: EdgeInsets.all(3.0),
+                        child: Text('Sedova St., 22', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -493,21 +495,21 @@ class _RoomTwoState extends State<RoomTwo> {
                 ],
               ),
             ),
-            if(showText)
-            Positioned.fill(
-              child: Row(
-                children: [
-                  AnimatedOpacity(
-                    duration: Constants.basicDuration,
-                    opacity: showText ? 1 : 0,
-                    child: const Padding(
-                      padding: EdgeInsets.all(4.0),
-                      child: Text('Gubina St., 11', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
+            if (showText)
+              Positioned.fill(
+                child: Row(
+                  children: [
+                    AnimatedOpacity(
+                      duration: Constants.basicDuration,
+                      opacity: showText ? 1 : 0,
+                      child: const Padding(
+                        padding: EdgeInsets.all(4.0),
+                        child: Text('Gubina St., 11', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -570,21 +572,21 @@ class _RoomThreeState extends State<RoomThree> {
                 ],
               ),
             ),
-            if(showText)
-            Positioned.fill(
-              child: Row(
-                children: [
-                  AnimatedOpacity(
-                    duration: Constants.basicDuration,
-                    opacity: showText ? 1 : 0,
-                    child: const Padding(
-                      padding: EdgeInsets.all(4.0),
-                      child: Text('Trefoleva St., 43', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
+            if (showText)
+              Positioned.fill(
+                child: Row(
+                  children: [
+                    AnimatedOpacity(
+                      duration: Constants.basicDuration,
+                      opacity: showText ? 1 : 0,
+                      child: const Padding(
+                        padding: EdgeInsets.all(4.0),
+                        child: Text('Trefoleva St., 43', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),
