@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:real/src/widgets/home.dart';
+import 'package:real/src/widgets/map.dart';
 import 'package:real/theme/theme.dart';
 import 'package:real/utils/assests.dart';
 import 'package:real/utils/constants.dart';
@@ -14,18 +15,22 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
+  late Animation _animation;
   bool isHome = true;
   ESCreen activeScreen = ESCreen.home;
 
   @override
   void initState() {
     _animationController = AnimationController(vsync: this, duration: Constants.basicDuration);
-    animateController();
+    _animation = CurvedAnimation(parent: _animationController, curve: Curves.easeInOut);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      animateController();
+    });
     super.initState();
   }
 
   void animateController() async {
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 8));
     _animationController.forward();
   }
 
@@ -54,12 +59,7 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin {
             children: [
               AnimatedCrossFade(
                 firstChild: const Home(),
-                secondChild: Container(
-                  decoration: BoxDecoration(
-                    color: EstateColors.dark,
-                    image: DecorationImage(image: AssetImage(EImages.map), fit: BoxFit.cover),
-                  ),
-                ),
+                secondChild: const Search(),
                 crossFadeState: isHome ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                 duration: Constants.basicDuration,
               ),
@@ -70,7 +70,7 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin {
                 right: 0,
                 left: 0,
                 child: AnimatedBuilder(
-                  animation: _animationController,
+                  animation: _animation,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -111,7 +111,7 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin {
                   ),
                   builder: (context, child) {
                     return Transform.translate(
-                      offset: Offset(0, -85 * _animationController.value),
+                      offset: Offset(0, -85 * double.parse(_animation.value.toString())),
                       child: child,
                     );
                   },
